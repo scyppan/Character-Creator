@@ -14,9 +14,15 @@ function createAppStructure() {
     mainContent.id = 'app-main-content';
     mainContent.className = 'app-main-content';
 
+    var footer = document.createElement('div');
+    footer.id = 'app-footer';
+    footer.className = 'app-footer';
+    footer.textContent = 'Footer placeholder'; // replace or remove as needed
+
     // assemble
     appContainer.appendChild(sidebar);
     appContainer.appendChild(mainContent);
+     appContainer.appendChild(footer);
 
     // insert under the <article> as the second child
     var article = document.querySelector('article');
@@ -32,21 +38,21 @@ function createAppStructure() {
 
 function createPanels() {
     var panels = [
-        { id: 'panel-identity',                title: 'Identity' },
-        { id: 'panel-parentage',               title: 'Parentage' },
-        { id: 'panel-personality',             title: 'Personality' },
-        { id: 'panel-characteristics',         title: 'Characteristics' },
-        { id: 'panel-initial-interests',       title: 'Initial Interests' },
-        { id: 'panel-education',               title: 'Education' },
-        { id: 'panel-eminence',                title: 'Eminence' },
-        { id: 'panel-relationships-humans',    title: 'Relationships with Humans' },
-        { id: 'panel-equipment',               title: 'Equipment' },
-        { id: 'panel-inventory',               title: 'Inventory' },
+        { id: 'panel-identity', title: 'Identity' },
+        { id: 'panel-parentage', title: 'Parentage' },
+        { id: 'panel-personality', title: 'Personality' },
+        { id: 'panel-characteristics', title: 'Characteristics' },
+        { id: 'panel-initial-interests', title: 'Initial Interests' },
+        { id: 'panel-education', title: 'Education' },
+        { id: 'panel-eminence', title: 'Eminence' },
+        { id: 'panel-relationships-humans', title: 'Relationships with Humans' },
+        { id: 'panel-equipment', title: 'Equipment' },
+        { id: 'panel-inventory', title: 'Inventory' },
         { id: 'panel-relationships-creatures', title: 'Relationships with Creatures' },
-        { id: 'panel-spells',                  title: 'Spells' },
-        { id: 'panel-proficiencies',           title: 'Proficiencies' },
-        { id: 'panel-potion-knowledge',        title: 'Potion Knowledge' },
-        { id: 'panel-notes',                   title: 'Notes' }
+        { id: 'panel-spells', title: 'Spells' },
+        { id: 'panel-proficiencies', title: 'Proficiencies' },
+        { id: 'panel-potion-knowledge', title: 'Potion Knowledge' },
+        { id: 'panel-notes', title: 'Notes' }
     ];
 
     var sidebar = document.getElementById('app-sidebar');
