@@ -81,5 +81,3 @@ const deferMove = (selector, panelId) => {
     if (el && panel) panel.appendChild(el);
   });
 };
-
-deferMove('#frm_field_8088_container', 'panel-identity');
