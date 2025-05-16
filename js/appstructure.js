@@ -27,7 +27,6 @@ function createAppStructure() {
   const footer = document.createElement('div');
   footer.id = 'app-footer';
   footer.className = 'app-footer';
-  footer.textContent = 'Footer placeholder'; // swap in your real button or markup
 
   // assemble wrapper
   appWrapper.appendChild(appContainer);
@@ -90,7 +89,7 @@ function createPanels() {
         // add placeholder text
         var placeholder = document.createElement('p');
         placeholder.textContent = 'Placeholder content for ' + cfg.title + ' panel.';
-        panel.appendChild(placeholder);
+        //panel.appendChild(placeholder);
 
         content.appendChild(panel);
     }
