@@ -1,30 +1,64 @@
-/* make the outer container a column stack */
+/* css/app.css */
+
+/* Container */
 #app-container {
+  display: flex;
+  justify-content: flex-start;
+  width: 95%;
+  margin: 20px auto;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background-color: #fafafa;
+}
+
+/* Sidebar */
+#app-sidebar {
+  width: 200px;
+  border-right: 1px solid #ddd;
+  background-color: #f4f4f4;
   display: flex;
   flex-direction: column;
 }
 
-/* make sidebar + main-content sit side by side */
-#app-content-wrapper {
-  display: flex;
-  flex-direction: row;
+/* Sidebar tabs */
+.app-tab {
+  padding: 12px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  font-size: 14px;
+  color: #333;
+  background-color: transparent;
 }
 
-/* sidebar style (fixed width) */
-#app-sidebar {
-  width: 200px;
-  /* …your other tab styles… */
+.app-tab:hover {
+  background-color: #eaeaea;
 }
 
-/* allow main content to grow */
+.app-tab.active {
+  background-color: #fff;
+  font-weight: bold;
+  border-left: 3px solid #007bff;
+}
+
+/* Main content area */
 #app-main-content {
-  flex: 1;
-  /* …your other panel styles… */
+  flex-grow: 1;
+  padding: 24px;
+  background-color: #fff;
 }
 
-/* footer spans full width underneath */
-#app-footer {
-  padding: 1em;
-  border-top: 1px solid #ccc;
-  text-align: right; /* or whatever */
+/* Panels */
+.app-panel {
+  background-color: #fff;
+  padding: 16px;
+  margin-bottom: 24px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+/* Panel headings */
+.app-panel h2 {
+  margin-top: 0;
+  font-size: 1.2em;
+  color: #333;
 }

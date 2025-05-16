@@ -1,43 +1,45 @@
 function createAppStructure() {
-  // main wrapper
+  // 1) outer wrapper (column)
+  const appWrapper = document.createElement('div');
+  appWrapper.id = 'app-wrapper';
+  appWrapper.className = 'app-wrapper';
+
+  // 2) row container for sidebar + main
   const appContainer = document.createElement('div');
   appContainer.id = 'app-container';
   appContainer.className = 'app-container';
 
-  // content wrapper (sidebar + main)
-  const contentWrapper = document.createElement('div');
-  contentWrapper.id = 'app-content-wrapper';
-  contentWrapper.className = 'app-content-wrapper';
-
-  // sidebar
+  //  └─ sidebar
   const sidebar = document.createElement('div');
   sidebar.id = 'app-sidebar';
   sidebar.className = 'app-sidebar';
 
-  // main content
+  //  └─ main content
   const mainContent = document.createElement('div');
   mainContent.id = 'app-main-content';
   mainContent.className = 'app-main-content';
 
-  // footer
+  // assemble row
+  appContainer.appendChild(sidebar);
+  appContainer.appendChild(mainContent);
+
+  // 3) footer full-width under container
   const footer = document.createElement('div');
   footer.id = 'app-footer';
   footer.className = 'app-footer';
-  footer.textContent = 'Footer placeholder'; // you can replace this with whatever
+  footer.textContent = 'Footer placeholder'; // swap in your real button or markup
 
-  // assemble
-  contentWrapper.appendChild(sidebar);
-  contentWrapper.appendChild(mainContent);
-  appContainer.appendChild(contentWrapper);
-  appContainer.appendChild(footer);
+  // assemble wrapper
+  appWrapper.appendChild(appContainer);
+  appWrapper.appendChild(footer);
 
-  // insert under the <article> as the second child
+  // 4) inject into the page under <article> as second child
   const article = document.querySelector('article');
-  if (article) {
-    const second = article.children[1];
-    if (second) article.insertBefore(appContainer, second);
-    else         article.appendChild(appContainer);
-  }
+  if (!article) return;
+
+  const second = article.children[1];
+  if (second) article.insertBefore(appWrapper, second);
+  else        article.appendChild(appWrapper);
 }
 
 
