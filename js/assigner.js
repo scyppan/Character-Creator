@@ -9,7 +9,7 @@ const assignments = [
   { selector: '#frm_field_7556_container', panelId: 'panel-identity' },
   { selector: '#frm_field_7557_container', panelId: 'panel-identity' },
   { selector: '#frm_field_7558_container', panelId: 'panel-identity' },
-  { selector: '#frm_field_8088_container', panelId: 'panel-identity' },
+  
 
   // Parentage (with Birthday section)
   { selector: '#frm_field_7789_container', panelId: 'panel-parentage' },
