@@ -1,40 +1,45 @@
 function createAppStructure() {
-    // build the main wrapper
-    var appContainer = document.createElement('div');
-    appContainer.id = 'app-container';
-    appContainer.className = 'app-container';
+  // main wrapper
+  const appContainer = document.createElement('div');
+  appContainer.id = 'app-container';
+  appContainer.className = 'app-container';
 
-    // build sidebar
-    var sidebar = document.createElement('div');
-    sidebar.id = 'app-sidebar';
-    sidebar.className = 'app-sidebar';
+  // content wrapper (sidebar + main)
+  const contentWrapper = document.createElement('div');
+  contentWrapper.id = 'app-content-wrapper';
+  contentWrapper.className = 'app-content-wrapper';
 
-    // build main content area
-    var mainContent = document.createElement('div');
-    mainContent.id = 'app-main-content';
-    mainContent.className = 'app-main-content';
+  // sidebar
+  const sidebar = document.createElement('div');
+  sidebar.id = 'app-sidebar';
+  sidebar.className = 'app-sidebar';
 
-    var footer = document.createElement('div');
-    footer.id = 'app-footer';
-    footer.className = 'app-footer';
-    footer.textContent = 'Footer placeholder'; // replace or remove as needed
+  // main content
+  const mainContent = document.createElement('div');
+  mainContent.id = 'app-main-content';
+  mainContent.className = 'app-main-content';
 
-    // assemble
-    appContainer.appendChild(sidebar);
-    appContainer.appendChild(mainContent);
-     appContainer.appendChild(footer);
+  // footer
+  const footer = document.createElement('div');
+  footer.id = 'app-footer';
+  footer.className = 'app-footer';
+  footer.textContent = 'Footer placeholder'; // you can replace this with whatever
 
-    // insert under the <article> as the second child
-    var article = document.querySelector('article');
-    if (article) {
-        var secondChild = article.children[1];
-        if (secondChild) {
-            article.insertBefore(appContainer, secondChild);
-        } else {
-            article.appendChild(appContainer);
-        }
-    }
+  // assemble
+  contentWrapper.appendChild(sidebar);
+  contentWrapper.appendChild(mainContent);
+  appContainer.appendChild(contentWrapper);
+  appContainer.appendChild(footer);
+
+  // insert under the <article> as the second child
+  const article = document.querySelector('article');
+  if (article) {
+    const second = article.children[1];
+    if (second) article.insertBefore(appContainer, second);
+    else         article.appendChild(appContainer);
+  }
 }
+
 
 function createPanels() {
     var panels = [
