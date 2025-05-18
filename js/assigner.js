@@ -74,7 +74,6 @@ const assignments = [
     { selector: '#frm_field_7643_container', panelId: 'panel-education' },
     { selector: '#frm_field_7644_container', panelId: 'panel-education' },
 
-
     // Eminence
     { selector: '#frm_field_7671_container', panelId: 'panel-eminence' }
 ];
@@ -95,3 +94,25 @@ const deferMove = (selector, panelId) => {
         if (el && panel) panel.appendChild(el);
     });
 };
+
+function assignWrappers() {
+  // Identity: Name + Year side-by-side
+  wrapSelectorsInto(
+    ['#frm_field_7510_container', '#frm_field_7571_container'],
+    'div',
+    ['cc-row'],   // your flex row
+    ['cc-w-50']   // each child 50%
+  );
+
+  // Education: three columns, for example
+  wrapSelectorsInto(
+    ['#frm_field_7511_container',
+     '#frm_field_7514_container',
+     '#frm_field_7515_container'],
+    'div',
+    ['cc-row'],
+    ['cc-w-33']
+  );
+
+  // …and so on for each group…
+}

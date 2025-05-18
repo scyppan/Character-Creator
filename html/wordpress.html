@@ -1,7 +1,7 @@
 <meta charset="UTF-8">
 <script>
 ;(function(){
-  const version = 'a25.5.16.08';
+  const version = 'a25.5.18.02';
   const base    = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}`;
 
   // 1) Inject your CSS
@@ -19,7 +19,8 @@
   // 2) Inject your JS
   const jsFiles = [
     'js/appstructure.js',
-    'js/assigner.js'
+    'js/assigner.js',
+    'js/wrappers.js',
   ];
   jsFiles.forEach(path => {
     const s = document.createElement('script');

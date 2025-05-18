@@ -73,3 +73,10 @@
   font-size: 12px;
   border-radius: 0 0 4px 4px;
 }
+
+/* Layout helper */
+.cc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
