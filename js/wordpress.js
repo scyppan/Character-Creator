@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   createAppStructure();
   createPanels();
   assignElementsToPanels();
+  assignWrappers();
 
   // move the file-upload (identity) after everything
   deferMove('#frm_field_8088_container', 'panel-identity');
