@@ -1,5 +1,5 @@
 async function initapp() {
-  const version = 'a25.5.19.023';
+  const version = 'a25.5.19.025';
   const base    = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}/`;
 
   console.log(`🚀 [initapp] Starting Character Creator v${version}`);
@@ -12,6 +12,7 @@ async function initapp() {
   ];
 
   const jsFiles = [
+    'js/0loadup/formvisibility.js',
     'js/0loadup/sidepanel.js',
     'js/1assignments/livename.js',
     'js/1assignments/assignments.js',
@@ -78,6 +79,7 @@ async function initapp() {
   syncEntryTitle();
   console.log('✅ [initapp] Entry title syncing active!');
 
+  revealFormDiv();
   main();
   console.log('🎉 [initapp] Initialization complete! Have fun 🎈');
 }
