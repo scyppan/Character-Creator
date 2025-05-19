@@ -8,7 +8,7 @@
   --cc-sp-offset: 3px;
 }
 
-article {
+main {
   /* expanded by default */
   margin-left: calc(var(--cc-sp-expanded));
   transition: margin-left 0.3s ease;
@@ -51,8 +51,4 @@ article {
 
  #sidepanel-header{
    display: inline-block;
- }
-
-.hidden{
-  display:none!important;
  }
