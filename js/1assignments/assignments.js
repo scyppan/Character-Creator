@@ -105,5 +105,5 @@ function showSectionFields(sectionKey) {
   });
 }
 
-assignSectionClasses(assignments);
-showSectionFields("identity");
+// assignSectionClasses(assignments);
+// showSectionFields("identity");

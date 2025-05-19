@@ -1,18 +1,26 @@
-function initSidepanelClickHandlers(callback) {
-// Normalize label → sectionKey (e.g. "Initial Interests" → "initial-interests")
-  const sectionKey = label
-    .toLowerCase()
-    .trim()
-    .replace(/\s+/g, '-')
-    // if you want to strip out “with-” → “relationships-humans”
-    .replace('with-', '');
+function initSidepanelClickHandlers() {
+  const items = document.querySelectorAll('.cc-sidepanel-item');
+  if (!items.length) {
+    console.warn('No sidepanel items found');
+    return;
+  }
 
-  // Show only the matching fields
-  showSectionFields(sectionKey);
+  items.forEach(item => {
+    item.addEventListener('click', event => {
+      const el = event.currentTarget;
+      const label = el.textContent.trim();
+      // normalize to your sectionKey format
+      const sectionKey = label
+        .toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace('with-', '');
 
-  // (Optional) Highlight the active side-panel item
-  document.querySelectorAll('.cc-sidepanel-item').forEach(item => {
-    item.classList.toggle('active', item === el);
+      // show/hide fields
+      showSectionFields(sectionKey);
+
+      // highlight active item
+      items.forEach(i => i.classList.remove('active'));
+      el.classList.add('active');
+    });
   });
 }
-
