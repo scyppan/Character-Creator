@@ -1,5 +1,5 @@
 async function initapp() {
-  const version = 'a25.5.19.09';
+  const version = 'a25.5.19.10';
   const base = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}/`;
 
   const cssFiles = [
@@ -9,7 +9,7 @@ async function initapp() {
   const jsFiles = [
     'js/0loadup/sidepanelloader.js',
     'js/0loadup/sidepanelfunctionality.js',
-    'js/0loadup/livenameupdate.js',
+    'js/1assignments/livenameupdate.js',
     'js/1assignments/assignments.js'
   ];
 
@@ -35,8 +35,9 @@ async function initapp() {
 
   console.log("🎉 CharCreator loader — all assets appended.");
 
+  assignSectionClasses(assignments);
   initSidepanelClickHandlers();
-  bindInputToText();//ensures the name stays in the header
+  
   console.log("🎉 side panel click handlers - loaded!");
 
 }

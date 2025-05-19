@@ -10,6 +10,7 @@
     { selector: '#frm_field_7557_container', section: 'identity' },
     { selector: '#frm_field_7558_container', section: 'identity' },
     { selector: '#frm_field_7785_container', section: 'identity' },
+    { selector: '#frm_field_8088_container', section: 'identity' },
 
     // Parentage
     { selector: '#frm_field_7789_container', section: 'parentage' },
@@ -45,6 +46,7 @@
 
     // Relationships with Humans
     { selector: '#frm_section_7779-0', section: 'relationships-humans' },
+    { selector: '#frm_field_7779_container', section: 'relationships-humans' },
 
     // Notes
     { selector: '#frm_field_8408_container', section: 'notes' },
