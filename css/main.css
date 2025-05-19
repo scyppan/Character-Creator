@@ -1,3 +1,49 @@
-.hidden{
-  display:none;
+/* ──────────────────────────────────────────────────────────
+   1) Define your two widths in one place:
+────────────────────────────────────────────────────────── */
+:root {
+  /* width when panel is open */
+  --cc-sp-expanded: 175px;
+  /* how far from the left edge you want the panel */
+  --cc-sp-offset: 3px;
+}
+
+article {
+  /* expanded by default */
+  margin-left: calc(var(--cc-sp-expanded));
+  transition: margin-left 0.3s ease;
+}
+
+/* ──────────────────────────────────────────────────────────
+   2) Side-panel styles
+────────────────────────────────────────────────────────── */
+#cc-sidepanel {
+  font-size: 18px;
+  position: fixed;
+  top: 25%; /* or use var(--cc-sp-offset) here if you prefer */
+  left: var(--cc-sp-offset);
+  width: var(--cc-sp-expanded);
+  
+  background: #d5d1b6;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.cc-sidepanel-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cc-sidepanel-item {
+  padding: 7px 3px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cc-sidepanel-item:hover {
+  background: #e0e0e0;
 }
