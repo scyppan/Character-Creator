@@ -42,60 +42,55 @@ function computePointsSpent() {
   }, 0);
 }
 
-function onCharacteristicChange(event) {
-  const input = event.currentTarget;
-  const limit   = computeCharacteristicLimit();
-  const spent   = computePointsSpent();
+function enforceCharacteristicLimit() {
+  const limit = computeCharacteristicLimit();
+  let spent   = computePointsSpent();
+  const elems = getCharacteristicElements();
 
-  if (spent > limit) {
-    const overage = spent - limit;
-    const curr    = parseInt(input.value, 10) || 0;
-    input.value = Math.max(1, curr - overage);
-  }
+  if (spent <= limit) return;
 
-  updateCharacteristicUI();
-}
-
-function updateCharacteristicUI() {
-  const limit   = computeCharacteristicLimit();
-  const spent   = computePointsSpent();
-  const remaining = Math.max(0, limit - spent);
-
-  // toggle submit button
-  const btn = getSubmitButton();
-  if (btn) {
-    btn.disabled = spent > limit;
-  }
-
-  // update the display text
-  const disp = getCharacteristicLimitDisplay();
-  if (disp) {
-    if (spent > limit) {
-      disp.textContent = `Spent too many points! Unspend ${spent - limit} point${spent - limit > 1 ? 's' : ''}`;
-    } else {
-      disp.textContent = `${remaining} point${remaining !== 1 ? 's' : ''} to spend`;
+  let changed = true;
+  while (spent > limit && changed) {
+    changed = false;
+    for (let i = 0; i < elems.length && spent > limit; i++) {
+      const input = elems[i];
+      const val = parseInt(input.value, 10) || 1;
+      if (val > 1) {
+        input.value = val - 1;
+        spent--;
+        changed = true;
+      }
     }
   }
 }
 
+function updateCharacteristicUI() {
+  enforceCharacteristicLimit();
+
+  const limit     = computeCharacteristicLimit();
+  const spent     = computePointsSpent();
+  const remaining = Math.max(0, limit - spent);
+
+  const btn = getSubmitButton();
+  if (btn) btn.disabled = spent > limit;
+
+  const disp = getCharacteristicLimitDisplay();
+  if (disp) {
+    disp.textContent = `${remaining} point${remaining !== 1 ? 's' : ''} to spend`;
+  }
+}
+
 function initCharacteristicHandling() {
-  const chars = getCharacteristicElements();
+  const elems  = getCharacteristicElements();
   const yearEl = getCurrentYearElement();
 
-  if (!chars.length) {
+  if (!elems.length) {
     console.warn('❌ [characteristics] No inputs found');
     return;
   }
 
-  // input change listeners
-  chars.forEach(inp => {
-    inp.addEventListener('change', onCharacteristicChange);
-  });
-
-  // recalc when year changes
-  if (yearEl) {
-    yearEl.addEventListener('change', updateCharacteristicUI);
-  }
+  elems.forEach(inp => inp.addEventListener('change', updateCharacteristicUI));
+  if (yearEl) yearEl.addEventListener('change', updateCharacteristicUI);
 
   // initial display
   updateCharacteristicUI();
@@ -108,11 +103,9 @@ function updateSliderGradient(el) {
   const val = parseFloat(el.value) || 0;
   const pct = ((val - min) / (max - min)) * 100;
 
-  // Read your CSS vars (fallback to sensible defaults)
-  const sliderColor     = getComputedStyle(el).getPropertyValue('--slider-color').trim()     || '#007bff';
-  const sliderBarColor  = getComputedStyle(el).getPropertyValue('--slider-bar-color').trim()  || '#e0e0e0';
+  const sliderColor    = getComputedStyle(el).getPropertyValue('--slider-color').trim()    || '#007bff';
+  const sliderBarColor = getComputedStyle(el).getPropertyValue('--slider-bar-color').trim() || '#e0e0e0';
 
-  // Apply an inline background that will override any older inline style
   el.style.setProperty(
     'background',
     `linear-gradient(to right, ${sliderColor} 0%, ${sliderColor} ${pct}%, ${sliderBarColor} ${pct}% 100%)`,
@@ -123,11 +116,8 @@ function updateSliderGradient(el) {
 function initSliderGradientHandling() {
   const sliders = document.querySelectorAll('input[type="range"]');
   sliders.forEach(slider => {
-    // When user drags it
     slider.addEventListener('input', () => updateSliderGradient(slider));
-    // In case value is changed programmatically without firing 'input'
     slider.addEventListener('change', () => updateSliderGradient(slider));
-    // Initial paint
     updateSliderGradient(slider);
   });
 }
