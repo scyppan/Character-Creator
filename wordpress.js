@@ -1,12 +1,14 @@
 async function initapp() {
-  const version = 'a25.5.19.022';
+  const version = 'a25.5.19.023';
   const base    = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}/`;
 
   console.log(`🚀 [initapp] Starting Character Creator v${version}`);
   console.log(`🌐 [initapp] Base URL: ${base}`);
 
   const cssFiles = [
-    'css/main.css'
+    'css/main.css',
+    'css/courses.css',
+    'css/hideoldelems.css'
   ];
 
   const jsFiles = [
