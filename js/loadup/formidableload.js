@@ -49,3 +49,9 @@ function onFormidableFormReady(callback, options = {}) {
     initWatcher();
   }
 }
+
+onFormidableFormReady(() => {
+  console.log('🔥 All Formidable fields are ready and settled.');
+  createAppStructure();
+  insertFormidableFormIntoApp();
+});
