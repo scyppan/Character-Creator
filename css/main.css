@@ -52,3 +52,7 @@ article {
  #sidepanel-header{
    display: inline-block;
  }
+
+ .hidden{
+  display:none;
+ }
