@@ -79,11 +79,11 @@ function enforceCharacteristicLimit() {
     changed = false;
     for (let i = 0; i < elems.length && spent > limit; i++) {
       const input = elems[i];
-      const val = parseInt(input.value, 10) || 1;
+      const val   = parseInt(input.value, 10) || 1;
       if (val > 1) {
         const newVal = val - 1;
-        console.log(`[characteristics] Auto-reducing ${input.id} from ${val} to ${newVal}`);
         input.value = newVal;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
         spent--;
         changed = true;
       }
@@ -104,9 +104,23 @@ function updateCharacteristicUI() {
   if (btn) btn.disabled = spent > limit;
 
   const disp = getCharacteristicLimitDisplay();
-  if (disp) {
-    disp.textContent = `${remaining} point${remaining !== 1 ? 's' : ''} to spend`;
-  }
+  if (!disp) return;
+
+  // update text
+  disp.textContent = `${remaining} point${remaining !== 1 ? 's' : ''} to spend`;
+
+  // highlight
+  const color = remaining === 0
+    ? 'rgba(255,182,193,0.5)'  // pink
+    : 'rgba(144,238,144,0.5)'; // green
+
+  disp.style.backgroundColor = color;
+
+  // fade back to transparent after 500ms
+  setTimeout(() => {
+    disp.style.transition = 'background-color 0.5s ease';
+    disp.style.backgroundColor = 'transparent';
+  }, 500);
 }
 
 function initCharacteristicHandling() {
