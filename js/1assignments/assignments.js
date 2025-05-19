@@ -98,10 +98,10 @@ function showSectionFields(sectionKey) {
 
   allSectionEls.forEach(el => {
     if (el.classList.contains(keepClass)) {
-        console.log(el, "show");
+        //console.log(el, "show");
       el.classList.remove('hidden');
     } else {
-        console.log(el, "hide");
+        //console.log(el, "hide");
       el.classList.add('hidden');
     }
   });
