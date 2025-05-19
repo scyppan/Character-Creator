@@ -21,7 +21,7 @@ main {
 #cc-sidepanel {
   font-size: 16px;
   position: fixed;
-  top: 25%; /* or use var(--cc-sp-offset) here if you prefer */
+  top: 13%; /* or use var(--cc-sp-offset) here if you prefer */
   left: var(--cc-sp-offset);
   width: var(--cc-sp-expanded);
   
