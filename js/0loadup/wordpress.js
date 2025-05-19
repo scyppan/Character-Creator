@@ -1,5 +1,5 @@
 async function initapp() {
-  const version = 'a25.5.19.07';
+  const version = 'a25.5.19.09';
   const base = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}/`;
 
   const cssFiles = [

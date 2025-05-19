@@ -1,17 +1,18 @@
 function initSidepanelClickHandlers(callback) {
-  const items = document.querySelectorAll('.cc-sidepanel-item');
-  if (!items.length) {
-    console.warn('No sidepanel items found');
-    return;
-  }
+// Normalize label → sectionKey (e.g. "Initial Interests" → "initial-interests")
+  const sectionKey = label
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    // if you want to strip out “with-” → “relationships-humans”
+    .replace('with-', '');
 
-  items.forEach(item => {
-    item.addEventListener('click', event => {
-      const label = event.currentTarget.textContent.trim();
-      console.log(`🔖 Sidepanel item clicked: ${label}`);
-      if (typeof callback === 'function') {
-        callback(label, event.currentTarget);
-      }
-    });
+  // Show only the matching fields
+  showSectionFields(sectionKey);
+
+  // (Optional) Highlight the active side-panel item
+  document.querySelectorAll('.cc-sidepanel-item').forEach(item => {
+    item.classList.toggle('active', item === el);
   });
 }
+

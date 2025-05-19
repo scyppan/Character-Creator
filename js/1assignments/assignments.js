@@ -89,8 +89,8 @@ function assignSectionClasses(assignments) {
 
 function showSectionFields(sectionKey) {
   // build the class we want to match
-  const keepClass = `cc-section-${sectionKey}`;
-
+  const keepClass = `cc-section-${sectionKey.toLowerCase()}`;
+  
   // find everything with a cc-section-... class
   const allSectionEls = document.querySelectorAll('[class*="cc-section-"]');
 
@@ -106,4 +106,4 @@ function showSectionFields(sectionKey) {
 }
 
 assignSectionClasses(assignments);
-showSectionFields("Identity");
+showSectionFields("identity");
