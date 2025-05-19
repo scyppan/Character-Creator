@@ -1,5 +1,5 @@
 async function initapp() {
-  const version = 'a25.5.19.06';
+  const version = 'a25.5.19.07';
   const base = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}/`;
 
   const cssFiles = [
@@ -7,8 +7,9 @@ async function initapp() {
   ];
 
   const jsFiles = [
-    'js/loadup/sidepanelloader.js',
-    'js/loadup/sidepanelfunctionality.js'
+    'js/0loadup/sidepanelloader.js',
+    'js/0loadup/sidepanelfunctionality.js',
+    'js/1assignments/assignments.js'
   ];
 
   // inject CSS
