@@ -1,9 +1,12 @@
-function bindInputToText(inputSelector, targetSelector, eventType = 'input') {
-  const inputEl = document.querySelector(inputSelector);
-  const targetEl = document.querySelector(targetSelector);
-  if (!inputEl || !targetEl) return;
+function syncEntryTitle() {
+  const inputEl = document.getElementById('field_5syv4');
+  const titleEl = document.querySelector('h1.entry-title');
+  if (!inputEl || !titleEl) return;
 
-  inputEl.addEventListener(eventType, () => {
-    targetEl.textContent = inputEl.value;
+  inputEl.addEventListener('input', () => {
+    titleEl.textContent = inputEl.value;
   });
+
+    titleEl.textContent = inputEl.value;
 }
+
