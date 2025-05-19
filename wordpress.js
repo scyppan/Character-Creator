@@ -1,5 +1,5 @@
 async function initapp() {
-  const version = 'a25.5.19.019';
+  const version = 'a25.5.19.022';
   const base    = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}/`;
 
   console.log(`🚀 [initapp] Starting Character Creator v${version}`);
@@ -18,7 +18,8 @@ async function initapp() {
     'js/3tools/parental.js',
     'js/3tools/gregorian.js',
     'js/3tools/traits.js',
-    'js/3tools/characteristics.js'
+    'js/3tools/characteristics.js',
+    'js/3tools/electives.js'
   ];
 
   // 🎨 Inject CSS

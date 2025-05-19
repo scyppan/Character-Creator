@@ -3,4 +3,5 @@ function main(){
     setRandomParental();
     initTraitHandling();
     initCharacteristicHandling();
+    initElectiveHandling();
 }
