@@ -1,3 +1,5 @@
+// js/3tools/characteristics.js
+
 function getCharacteristicElements() {
   const ids = [
     'field_creativity',
@@ -42,6 +44,29 @@ function computePointsSpent() {
   }, 0);
 }
 
+/**
+ * Clamp a single field back to the allowed value if over.
+ * Called on that field’s change.
+ */
+function characteristicpointspent(fieldId) {
+  const input = document.getElementById(fieldId);
+  if (!input) return;
+
+  const attempted = parseInt(input.value, 10) || 0;
+  const limit     = computeCharacteristicLimit();
+  const spent     = computePointsSpent();
+
+  if (spent > limit) {
+    const newVal = attempted + (limit - spent);
+    console.log(`[characteristics] Clamping ${fieldId} from ${attempted} to ${newVal}`);
+    input.value = newVal;
+  }
+}
+
+/**
+ * Globally enforce limit by walking all fields down
+ * when the year changes.
+ */
 function enforceCharacteristicLimit() {
   const limit = computeCharacteristicLimit();
   let spent   = computePointsSpent();
@@ -56,7 +81,9 @@ function enforceCharacteristicLimit() {
       const input = elems[i];
       const val = parseInt(input.value, 10) || 1;
       if (val > 1) {
-        input.value = val - 1;
+        const newVal = val - 1;
+        console.log(`[characteristics] Auto-reducing ${input.id} from ${val} to ${newVal}`);
+        input.value = newVal;
         spent--;
         changed = true;
       }
@@ -64,9 +91,11 @@ function enforceCharacteristicLimit() {
   }
 }
 
+/**
+ * Update submit button state and “X points to spend” text.
+ * Does NOT enforce limits itself.
+ */
 function updateCharacteristicUI() {
-  enforceCharacteristicLimit();
-
   const limit     = computeCharacteristicLimit();
   const spent     = computePointsSpent();
   const remaining = Math.max(0, limit - spent);
@@ -89,10 +118,28 @@ function initCharacteristicHandling() {
     return;
   }
 
-  elems.forEach(inp => inp.addEventListener('change', updateCharacteristicUI));
-  if (yearEl) yearEl.addEventListener('change', updateCharacteristicUI);
+  // 1) On each slider interaction (drag or click), clamp that field
+  //    then update UI & gradient:
+  elems.forEach(inp => {
+    ['input','change'].forEach(evt =>
+      inp.addEventListener(evt, () => {
+        characteristicpointspent(inp.id);
+        updateCharacteristicUI();
+        updateSliderGradient(inp);
+      })
+    );
+  });
 
-  // initial display
+  // 2) On year change: enforce on all fields once, then update UI & all gradients
+  if (yearEl) {
+    yearEl.addEventListener('change', () => {
+      enforceCharacteristicLimit();
+      updateCharacteristicUI();
+      getCharacteristicElements().forEach(updateSliderGradient);
+    });
+  }
+
+  // initial display + gradient sync
   updateCharacteristicUI();
   initSliderGradientHandling();
 }
@@ -103,8 +150,12 @@ function updateSliderGradient(el) {
   const val = parseFloat(el.value) || 0;
   const pct = ((val - min) / (max - min)) * 100;
 
-  const sliderColor    = getComputedStyle(el).getPropertyValue('--slider-color').trim()    || '#007bff';
-  const sliderBarColor = getComputedStyle(el).getPropertyValue('--slider-bar-color').trim() || '#e0e0e0';
+  const sliderColor    = getComputedStyle(el)
+    .getPropertyValue('--slider-color')
+    .trim() || '#007bff';
+  const sliderBarColor = getComputedStyle(el)
+    .getPropertyValue('--slider-bar-color')
+    .trim() || '#e0e0e0';
 
   el.style.setProperty(
     'background',
@@ -116,7 +167,7 @@ function updateSliderGradient(el) {
 function initSliderGradientHandling() {
   const sliders = document.querySelectorAll('input[type="range"]');
   sliders.forEach(slider => {
-    slider.addEventListener('input', () => updateSliderGradient(slider));
+    slider.addEventListener('input',  () => updateSliderGradient(slider));
     slider.addEventListener('change', () => updateSliderGradient(slider));
     updateSliderGradient(slider);
   });
