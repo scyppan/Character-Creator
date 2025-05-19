@@ -17,8 +17,9 @@ article {
 /* ──────────────────────────────────────────────────────────
    2) Side-panel styles
 ────────────────────────────────────────────────────────── */
+
 #cc-sidepanel {
-  font-size: 18px;
+  font-size: 16px;
   position: fixed;
   top: 25%; /* or use var(--cc-sp-offset) here if you prefer */
   left: var(--cc-sp-offset);
@@ -47,3 +48,7 @@ article {
 .cc-sidepanel-item:hover {
   background: #e0e0e0;
 }
+
+ #sidepanel-header{
+   display: inline-block;
+ }

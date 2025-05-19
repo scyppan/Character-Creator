@@ -1,30 +1,5 @@
-// ——————————————————————————————————————
-// Entry point: load assets, then wire up Formidable and app
-// ——————————————————————————————————————
-async function initApp() {
-  console.log("🛠 Initializing Character Creator…");
-
-  // 1) Load CSS & JS from your GitHub release
-  await initCharCreatorLoader();
-  console.log("✅ Assets loaded; waiting for Formidable…");
-
-  // 2) Wait until Formidable is fully rendered…
-  onFormidableFormReady(() => {
-    console.log("🔥 All Formidable fields are ready and settled.");
-
-    // 3) Build your app layout and inject the form
-    createAppStructure();
-    insertFormidableFormIntoApp();
-
-    console.log("🚀 App is live!");
-  });
-}
-
-// ——————————————————————————————————————
-// Loader: pulls in CSS & JS via JSDelivr
-// ——————————————————————————————————————
 async function initCharCreatorLoader() {
-  const version = 'a25.5.19.02';
+  const version = 'a25.5.19.05';
   const base    = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}/`;
 
   const cssFiles = [
@@ -32,8 +7,7 @@ async function initCharCreatorLoader() {
   ];
 
   const jsFiles = [
-    'js/loadup/appstructure.js',
-    'js/loadup/formidableload.js'
+    'js/loadup/sidepanelloader.js',
   ];
 
   // inject CSS
@@ -63,5 +37,5 @@ async function initCharCreatorLoader() {
 // Run initApp when the DOM is ready
 // ——————————————————————————————————————
 document.addEventListener('DOMContentLoaded', () =>
-  initApp().catch(err => console.error('Initialization failed:', err))
+  initCharCreatorLoader().catch(err => console.error('Initialization failed:', err))
 );
