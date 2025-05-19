@@ -99,4 +99,35 @@ function initCharacteristicHandling() {
 
   // initial display
   updateCharacteristicUI();
+  initSliderGradientHandling();
+}
+
+function updateSliderGradient(el) {
+  const min = parseFloat(el.min) || 0;
+  const max = parseFloat(el.max) || 100;
+  const val = parseFloat(el.value) || 0;
+  const pct = ((val - min) / (max - min)) * 100;
+
+  // Read your CSS vars (fallback to sensible defaults)
+  const sliderColor     = getComputedStyle(el).getPropertyValue('--slider-color').trim()     || '#007bff';
+  const sliderBarColor  = getComputedStyle(el).getPropertyValue('--slider-bar-color').trim()  || '#e0e0e0';
+
+  // Apply an inline background that will override any older inline style
+  el.style.setProperty(
+    'background',
+    `linear-gradient(to right, ${sliderColor} 0%, ${sliderColor} ${pct}%, ${sliderBarColor} ${pct}% 100%)`,
+    'important'
+  );
+}
+
+function initSliderGradientHandling() {
+  const sliders = document.querySelectorAll('input[type="range"]');
+  sliders.forEach(slider => {
+    // When user drags it
+    slider.addEventListener('input', () => updateSliderGradient(slider));
+    // In case value is changed programmatically without firing 'input'
+    slider.addEventListener('change', () => updateSliderGradient(slider));
+    // Initial paint
+    updateSliderGradient(slider);
+  });
 }
