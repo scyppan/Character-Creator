@@ -1,90 +1,124 @@
+// js/3tools/traits.js
+
+/**
+ * Collect all trait checkboxes (ids “field_traits-0” … “field_traits-22”).
+ * @returns {HTMLInputElement[]}
+ */
 function getTraitElements() {
-  return Array.prototype.slice.call(
+  return Array.from(
     document.querySelectorAll('input[id^="field_traits-"]')
   );
 }
 
+/**
+ * @returns {HTMLSelectElement|null}
+ */
 function getBloodStatusElement() {
   return document.getElementById('field_bloodstatus');
 }
 
+/**
+ * @returns {HTMLInputElement|null}
+ */
 function getPermissivenessElement() {
   return document.getElementById('field_permissiveness');
 }
 
+/**
+ * @returns {HTMLElement|null}
+ */
 function getTraitLimitDisplayElement() {
   return document.getElementById('traitselectionlimit');
 }
 
-function calculateTraitLimit() {
+/**
+ * Compute the raw trait-pick limit based on blood-status + permissiveness.
+ * @returns {number}
+ */
+function calculateBaseTraitLimit() {
+  var base = 0;
   var bloodEl = getBloodStatusElement();
   var permEl  = getPermissivenessElement();
-  var traitlimit = 0;
 
-  // 1) Blood-status base
   if (bloodEl) {
     switch (bloodEl.value) {
-      case 'Pureblood':
-        traitlimit = 0;
-        break;
-      case 'Wizard-Raised Halfblood':
-        traitlimit = 1;
-        break;
-      case 'Muggle-Raised Halfblood':
-        traitlimit = 2;
-        break;
-      case 'Muggleborn':
-        traitlimit = 3;
-        break;
-      default:
-        traitlimit = 0;
+      case 'Pureblood':                 base = 0; break;
+      case 'Wizard-Raised Halfblood':   base = 1; break;
+      case 'Muggle-Raised Halfblood':   base = 2; break;
+      case 'Muggleborn':                base = 3; break;
+      default:                          base = 0;
     }
   }
 
-  // 2) Permissiveness adjustment
   if (permEl) {
-    var permVal = parseInt(permEl.value, 10);
-    if (!isNaN(permVal)) {
-      if (permVal < 4) traitlimit--;
-      if (permVal > 6) traitlimit++;
+    var val = parseInt(permEl.value, 10);
+    if (!isNaN(val)) {
+      if (val < 4)  base--;
+      if (val > 6)  base++;
     }
   }
 
-  // 3) Subtract checked traits
-  var traits = getTraitElements();
-  for (var i = 0; i < traits.length; i++) {
-    if (traits[i].checked) traitlimit--;
-  }
-
-  // 4) Never negative
-  if (traitlimit < 0) traitlimit = 0;
-
-  return traitlimit;
+  return base < 0 ? 0 : base;
 }
 
+/**
+ * Compute how many picks remain (base - checked).
+ * @returns {number}
+ */
+function calculateTraitRemaining() {
+  var traits = getTraitElements();
+  var checked = traits.filter(cb => cb.checked).length;
+  var base    = calculateBaseTraitLimit();
+  var rem     = base - checked;
+  return rem < 0 ? 0 : rem;
+}
+
+/**
+ * Enforce the max picks: if user has checked more than base limit,
+ * uncheck extras (starting from the last checkbox).
+ */
+function enforceMaxPicks() {
+  var traits       = getTraitElements();
+  var checkedCount = traits.filter(cb => cb.checked).length;
+  var baseLimit    = calculateBaseTraitLimit();
+  var toRemove     = checkedCount - baseLimit;
+
+  for (var i = traits.length - 1; i >= 0 && toRemove > 0; i--) {
+    if (traits[i].checked) {
+      traits[i].checked = false;
+      toRemove--;
+    }
+  }
+}
+
+/**
+ * Enable/disable trait checkboxes and update the "Pick X more" text.
+ */
 function updateTraitUI() {
-  var traits = getTraitElements();
-  var limit  = calculateTraitLimit();
+  // 1) If over limit, uncheck extras
+  enforceMaxPicks();
 
-  if (limit <= 0) {
-    // disable unchecked only
-    for (var i = 0; i < traits.length; i++) {
-      traits[i].disabled = !traits[i].checked;
-    }
+  // 2) Enable/disable based on remaining
+  var traits = getTraitElements();
+  var rem    = calculateTraitRemaining();
+
+  if (rem <= 0) {
+    traits.forEach(cb => cb.disabled = !cb.checked);
   } else {
-    // enable all
-    for (var i = 0; i < traits.length; i++) {
-      traits[i].disabled = false;
-    }
+    traits.forEach(cb => cb.disabled = false);
   }
 
-  // update display
-  var displayEl = getTraitLimitDisplayElement();
-  if (displayEl) {
-    displayEl.textContent = 'Pick ' + limit + ' more';
+  // 3) Update display text
+  var display = getTraitLimitDisplayElement();
+  if (display) {
+    display.textContent = 'Pick ' + rem + ' more';
   }
 }
 
+/**
+ * Wire up listeners on blood-status, permissiveness, and each trait,
+ * then do an initial UI update.
+ */
 function initTraitHandling() {
   var traits = getTraitElements();
   var bloodEl = getBloodStatusElement();
@@ -94,15 +128,13 @@ function initTraitHandling() {
     console.warn('❌ [traits] No trait inputs found');
   }
 
-  // Trait checkboxes
-  for (var i = 0; i < traits.length; i++) {
-    traits[i].addEventListener('change', updateTraitUI);
-  }
+  // On any trait change
+  traits.forEach(cb => cb.addEventListener('change', updateTraitUI));
 
-  // Blood-status & permissiveness
+  // If base-changing fields update
   if (bloodEl) bloodEl.addEventListener('change', updateTraitUI);
   if (permEl)  permEl.addEventListener('change', updateTraitUI);
 
-  // Initial render
+  // Initial pass
   updateTraitUI();
 }
