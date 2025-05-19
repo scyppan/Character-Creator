@@ -1,5 +1,5 @@
 async function initapp() {
-  const version = 'a25.5.19.012';
+  const version = 'a25.5.19.013';
   const base    = `https://cdn.jsdelivr.net/gh/scyppan/Character-Creator@${version}/`;
 
   console.log(`🚀 [initapp] Starting Character Creator v${version}`);
@@ -9,10 +9,11 @@ async function initapp() {
     'css/main.css'
   ];
   const jsFiles = [
-    'js/0loadup/sidepanelloader.js',
-    'js/0loadup/sidepanelfunctionality.js',
-    'js/1assignments/livenameupdate.js',
-    'js/1assignments/assignments.js'
+    'js/0loadup/sidepanel.js',
+    'js/1assignments/livename.js',
+    'js/1assignments/assignments.js',
+    'js/2functionality/main.js',
+    'js/3tools/gregorian.js'
   ];
 
   // 🎨 Inject CSS
@@ -69,6 +70,7 @@ async function initapp() {
   syncEntryTitle();
   console.log('✅ [initapp] Entry title syncing active!');
 
+  main();
   console.log('🎉 [initapp] Initialization complete! Have fun 🎈');
 }
 
