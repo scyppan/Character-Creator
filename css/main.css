@@ -49,6 +49,10 @@ main {
   background: #e0e0e0;
 }
 
- #sidepanel-header{
-   display: inline-block;
+#sidepanel-header h6{
+   font-size: 14px;
+    margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
  }

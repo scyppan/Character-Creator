@@ -4,7 +4,7 @@ function syncEntryTitle() {
   if (!inputEl || !titleEl) return;
 
   inputEl.addEventListener('input', () => {
-    if(inputEl.value){
+    if(inputEl.value!=''){
       titleEl.textContent = inputEl.value;
     }
   });
