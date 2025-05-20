@@ -65,11 +65,6 @@
     // Education
     { selector: '#frm_field_7511_container', section: 'education' },
     { selector: '#frm_field_7515_container', section: 'education' },
-    { selector: '#frm_field_7597_container', section: 'education' },
-    { selector: '#frm_field_7598_container', section: 'education' },
-    { selector: '#frm_field_7599_container', section: 'education' },
-    { selector: '#frm_field_8298_container', section: 'education' },
-    { selector: '#frm_field_8299_container', section: 'education' },
     { selector: '#frm_field_7514_container', section: 'education' },
     { selector: '#frm_field_7609_container', section: 'education' },
     { selector: '#frm_field_7608_container', section: 'education' },
@@ -103,6 +98,8 @@ function assignSectionClasses(assignments) {
       el.classList.add(`cc-section-${sec}`);
     });
   });
+
+  clearInlineDisplayForSection('education');
 }
 
 function showSectionFields(sectionKey) {
@@ -119,6 +116,16 @@ function showSectionFields(sectionKey) {
     } else {
         //console.log(el, "hide");
       el.classList.add('hidden');
+    }
+  });
+}
+
+function clearInlineDisplayForSection(sectionKey) {
+  const selector = `.cc-section-${sectionKey.toLowerCase()}`;
+  document.querySelectorAll(selector).forEach(el => {
+    if (el.style && el.style.display) {
+      el.style.removeProperty('display');
+      console.log(`🧹 Cleared inline display on`, el);
     }
   });
 }
