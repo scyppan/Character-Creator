@@ -6,9 +6,15 @@ function syncEntryTitle() {
   inputEl.addEventListener('input', () => {
     if(inputEl.value!=''){
       titleEl.textContent = inputEl.value;
+    }else{
+      titleEl.textContent=="Character Creator 25";
     }
   });
 
-    titleEl.textContent = inputEl.value;
+    if(inputEl.value!=''){
+      titleEl.textContent = inputEl.value;
+    }else{
+      titleEl.textContent=="Character Creator 25";
+    }
 }
 
