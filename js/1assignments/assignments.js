@@ -120,15 +120,13 @@ function showSectionFields(sectionKey) {
   });
 }
 
-function clearInlineDisplayForSection(sectionKey) {
+function clearInlineBlockDisplayForSection(sectionKey) {
   const selector = `.cc-section-${sectionKey.toLowerCase()}`;
   document.querySelectorAll(selector).forEach(el => {
-    if (el.style && el.style.display) {
+    // Only clear if inline display is exactly "block"
+    if (el.style.display === 'block') {
       el.style.removeProperty('display');
-      console.log(`🧹 Cleared inline display on`, el);
+      console.log(`🧹 Cleared inline display:block on`, el);
     }
   });
 }
-
-// assignSectionClasses(assignments);
-// showSectionFields("identity");
