@@ -14,6 +14,10 @@
 
     // Parentage
     { selector: '#frm_field_7789_container', section: 'parentage' },
+    { selector: '#frm_field_7555_container', section: 'parentage' },
+    { selector: '#frm_field_7556_container', section: 'parentage' },
+    { selector: '#frm_field_7557_container', section: 'parentage' },
+    { selector: '#frm_field_7558_container', section: 'parentage' },
     { selector: '#frm_field_7787_container', section: 'parentage' },
     { selector: '#frm_field_7799_container', section: 'parentage' },
     { selector: '#frm_field_7565_container', section: 'parentage' },

@@ -8,7 +8,8 @@ async function initapp() {
   const cssFiles = [
     'css/main.css',
     'css/courses.css',
-    'css/hideoldelems.css'
+    'css/hideoldelems.css',
+    'css/sidepanel.css'
   ];
 
   const jsFiles = [

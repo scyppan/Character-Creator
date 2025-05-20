@@ -18,9 +18,19 @@ function initSidepanelClickHandlers() {
       // show/hide fields
       showSectionFields(sectionKey);
 
-      // highlight active item
+      // ADD ONLY: reusable highlight function call
+      highlightSidepanelItem(el);
+
+      // highlight active item (existing logic)
       items.forEach(i => i.classList.remove('active'));
       el.classList.add('active');
     });
   });
 }
+
+function highlightSidepanelItem(clickedEl, activeClass = 'active') {
+  document.querySelectorAll('.cc-sidepanel-item').forEach(item => {
+    item.classList.toggle(activeClass, item === clickedEl);
+  });
+}
+

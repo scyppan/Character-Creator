@@ -1,0 +1,10 @@
+.cc-sidepanel-item.active {
+  background-color: #d1c7a9;  /* a light highlight color */
+  font-weight: bold;
+  color: #333;
+}
+
+/* Optional: transition for smoother highlight change */
+.cc-sidepanel-item {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
