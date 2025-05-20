@@ -57,10 +57,13 @@ function updateAllElectives() {
 function initElectiveHandling() {
   const byYear = getElectivesByYear();
 
+  // 1) Year‐specific listeners
   Object.entries(byYear).forEach(([year, boxes]) => {
+    // a) When any checkbox changes
     boxes.forEach(cb =>
       cb.addEventListener('change', () => updateElectivesForYear(year, boxes))
     );
+    // b) When the limit input changes
     const limitEl = getElectiveLimitElement(year);
     if (limitEl) {
       limitEl.addEventListener('change', () =>
@@ -69,5 +72,23 @@ function initElectiveHandling() {
     }
   });
 
+  // 2) Global listeners on school and current year
+  const schoolEl = document.getElementById('field_school');
+  const yearEl   = document.getElementById('field_currentyear');
+
+  if (schoolEl) {
+    schoolEl.addEventListener('change', () => {
+      console.log('🔄 school changed, updating all electives');
+      updateAllElectives();
+    });
+  }
+  if (yearEl) {
+    yearEl.addEventListener('change', () => {
+      console.log('🔄 current year changed, updating all electives');
+      updateAllElectives();
+    });
+  }
+
+  // 3) Initial population
   updateAllElectives();
 }
