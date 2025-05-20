@@ -79,12 +79,14 @@ function initElectiveHandling() {
   if (schoolEl) {
     schoolEl.addEventListener('change', () => {
       console.log('🔄 school changed, updating all electives');
+      clearInlineBlockDisplayForSection();
       updateAllElectives();
     });
   }
   if (yearEl) {
     yearEl.addEventListener('change', () => {
       console.log('🔄 current year changed, updating all electives');
+      clearInlineBlockDisplayForSection();
       updateAllElectives();
     });
   }

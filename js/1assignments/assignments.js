@@ -99,7 +99,7 @@ function assignSectionClasses(assignments) {
     });
   });
 
-  clearInlineBlockDisplayForSection('education');
+  clearInlineBlockDisplayForSection();
 }
 
 function showSectionFields(sectionKey) {
@@ -120,13 +120,13 @@ function showSectionFields(sectionKey) {
   });
 }
 
-function clearInlineBlockDisplayForSection(sectionKey) {
-  const selector = `.cc-section-${sectionKey.toLowerCase()}`;
-  document.querySelectorAll(selector).forEach(el => {
-    // Only clear if inline display is exactly "block"
-    if (el.style.display === 'block') {
-      el.style.removeProperty('display');
-      console.log(`🧹 Cleared inline display:block on`, el);
+function clearInlineBlockDisplayForSection() {
+document.querySelectorAll('.cc-section-education').forEach(el=>{
+
+    if(el.style.display === 'block'){
+
+        console.log(el, "true");
+         el.style.removeProperty('display');
     }
-  });
+});
 }
