@@ -120,23 +120,16 @@ function showSectionFields(sectionKey) {
   });
 }
 
-async function clearEducationInlineBlockDisplaysAsync(retries = 5, interval = 200) {
+async function clearEducationInlineBlockDisplaysAsync(retries = 10, interval = 200) {
   for (let attempt = 1; attempt <= retries; attempt++) {
-    let didClear = false;
     document.querySelectorAll('.cc-section-education').forEach(el => {
       if (el.style.display === 'block') {
-        console.log(`🧹 [Attempt ${attempt}] Cleared inline display:block on`, el);
+        console.log(`🧹 [Attempt ${attempt}] Clearing inline display:block on`, el);
         el.style.removeProperty('display');
-        didClear = true;
       }
     });
-    // If nothing to clear, we’re done early
-    if (!didClear) {
-      console.log(`✅ No more inline display:block found (stopped at attempt ${attempt})`);
-      return;
-    }
-    // Otherwise wait and retry
+    // wait before next attempt
     await new Promise(res => setTimeout(res, interval));
   }
-  console.warn(`⚠️ clearEducationInlineBlockDisplaysAsync: timed out after ${retries} attempts`);
+  console.log(`✅ Finished ${retries} attempts to clear inline display:block.`);
 }
