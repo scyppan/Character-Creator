@@ -99,7 +99,7 @@ function assignSectionClasses(assignments) {
     });
   });
 
-  clearInlineDisplayForSection('education');
+  clearInlineBlockDisplayForSection('education');
 }
 
 function showSectionFields(sectionKey) {
