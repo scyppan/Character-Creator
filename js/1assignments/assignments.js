@@ -1,87 +1,87 @@
-  const assignments = [
-    // Identity
-    { selector: '#frm_field_7510_container', section: 'identity' },
-    { selector: '#frm_field_7571_container', section: ['identity', 'education'] },
-    { selector: '#frm_field_7551_container', section: 'identity' },
-    { selector: '#frm_field_7554_container', section: 'identity' },
-    { selector: '#frm_field_7553_container', section: 'identity' },
-    { selector: '#frm_field_7555_container', section: 'identity' },
-    { selector: '#frm_field_7556_container', section: 'identity' },
-    { selector: '#frm_field_7557_container', section: 'identity' },
-    { selector: '#frm_field_7558_container', section: 'identity' },
-    { selector: '#frm_field_7785_container', section: 'identity' },
-    { selector: '#frm_field_8088_container', section: 'identity' },
+const assignments = [
+  // Identity
+  { selector: '#frm_field_7510_container', section: 'identity' },
+  { selector: '#frm_field_7571_container', section: ['identity', 'education'] },
+  { selector: '#frm_field_7551_container', section: 'identity' },
+  { selector: '#frm_field_7554_container', section: 'identity' },
+  { selector: '#frm_field_7553_container', section: 'identity' },
+  { selector: '#frm_field_7555_container', section: 'identity' },
+  { selector: '#frm_field_7556_container', section: 'identity' },
+  { selector: '#frm_field_7557_container', section: 'identity' },
+  { selector: '#frm_field_7558_container', section: 'identity' },
+  { selector: '#frm_field_7785_container', section: 'identity' },
+  { selector: '#frm_field_8088_container', section: 'identity' },
 
-    // Parentage
-    { selector: '#frm_field_7789_container', section: 'parentage' },
-    { selector: '#frm_field_7555_container', section: 'parentage' },
-    { selector: '#frm_field_7556_container', section: 'parentage' },
-    { selector: '#frm_field_7557_container', section: 'parentage' },
-    { selector: '#frm_field_7558_container', section: 'parentage' },
-    { selector: '#frm_field_7787_container', section: 'parentage' },
-    { selector: '#frm_field_7799_container', section: 'parentage' },
-    { selector: '#frm_field_7565_container', section: 'parentage' },
+  // Parentage
+  { selector: '#frm_field_7789_container', section: 'parentage' },
+  { selector: '#frm_field_7555_container', section: 'parentage' },
+  { selector: '#frm_field_7556_container', section: 'parentage' },
+  { selector: '#frm_field_7557_container', section: 'parentage' },
+  { selector: '#frm_field_7558_container', section: 'parentage' },
+  { selector: '#frm_field_7787_container', section: 'parentage' },
+  { selector: '#frm_field_7799_container', section: 'parentage' },
+  { selector: '#frm_field_7565_container', section: 'parentage' },
 
-    // Initial Interests
-    { selector: '#frm_field_7791_container', section: 'initial-interests' },
+  // Initial Interests
+  { selector: '#frm_field_7791_container', section: 'initial-interests' },
 
-    // Equipment
-    { selector: '#frm_field_7746_container', section: 'equipment' },
-    { selector: '#frm_field_8635_container', section: 'equipment' },
-    { selector: '#frm_field_7735_container', section: 'equipment' },
-    { selector: '#frm_field_7727_container', section: 'equipment' },
-    { selector: '#frm_field_7731_container', section: 'equipment' },
-    { selector: '#frm_field_8650_container', section: 'equipment' },
+  // Equipment
+  { selector: '#frm_field_7746_container', section: 'equipment' },
+  { selector: '#frm_field_8635_container', section: 'equipment' },
+  { selector: '#frm_field_7735_container', section: 'equipment' },
+  { selector: '#frm_field_7727_container', section: 'equipment' },
+  { selector: '#frm_field_7731_container', section: 'equipment' },
+  { selector: '#frm_field_8650_container', section: 'equipment' },
 
-    // Relationships with Creatures
-    { selector: '#frm_field_8060_container', section: 'relationships-creatures' },
+  // Relationships with Creatures
+  { selector: '#frm_field_8060_container', section: 'relationships-creatures' },
 
-    // Inventory
-    { selector: '#frm_field_7728_container', section: 'inventory' },
+  // Inventory
+  { selector: '#frm_field_7728_container', section: 'inventory' },
 
-    // Spells
-    { selector: '#frm_field_7748_container', section: 'spells' },
+  // Spells
+  { selector: '#frm_field_7748_container', section: 'spells' },
 
-    // Proficiencies
-    { selector: '#frm_field_7838_container', section: 'proficiencies' },
+  // Proficiencies
+  { selector: '#frm_field_7838_container', section: 'proficiencies' },
 
-    // Potion Knowledge
-    { selector: '#frm_field_8047_container', section: 'potion-knowledge' },
+  // Potion Knowledge
+  { selector: '#frm_field_8047_container', section: 'potion-knowledge' },
 
-    // Relationships with Humans
-    { selector: '#frm_section_7779-0', section: 'relationships-humans' },
-    { selector: '#frm_field_7779_container', section: 'relationships-humans' },
+  // Relationships with Humans
+  { selector: '#frm_section_7779-0', section: 'relationships-humans' },
+  { selector: '#frm_field_7779_container', section: 'relationships-humans' },
 
-    // Notes
-    { selector: '#frm_field_8408_container', section: 'notes' },
-    { selector: '#frm_field_7776_container', section: 'notes' },
+  // Notes
+  { selector: '#frm_field_8408_container', section: 'notes' },
+  { selector: '#frm_field_7776_container', section: 'notes' },
 
-    // Personality
-    { selector: '#frm_field_7650_container', section: 'personality' },
+  // Personality
+  { selector: '#frm_field_7650_container', section: 'personality' },
 
-    // Characteristics
-    { selector: '#frm_field_7585_container', section: 'characteristics' },
+  // Characteristics
+  { selector: '#frm_field_7585_container', section: 'characteristics' },
 
-    // Education
-    { selector: '#frm_field_7511_container', section: 'education' },
-    { selector: '#frm_field_7515_container', section: 'education' },
-    { selector: '#frm_field_7514_container', section: 'education' },
-    { selector: '#frm_field_7609_container', section: 'education' },
-    { selector: '#frm_field_7608_container', section: 'education' },
-    { selector: '#frm_field_7615_container', section: 'education' },
-    { selector: '#frm_field_7616_container', section: 'education' },
-    { selector: '#frm_field_7622_container', section: 'education' },
-    { selector: '#frm_field_7623_container', section: 'education' },
-    { selector: '#frm_field_7630_container', section: 'education' },
-    { selector: '#frm_field_7629_container', section: 'education' },
-    { selector: '#frm_field_7636_container', section: 'education' },
-    { selector: '#frm_field_7637_container', section: 'education' },
-    { selector: '#frm_field_7643_container', section: 'education' },
-    { selector: '#frm_field_7644_container', section: 'education' },
+  // Education
+  { selector: '#frm_field_7511_container', section: 'education' },
+  { selector: '#frm_field_7515_container', section: 'education' },
+  { selector: '#frm_field_7514_container', section: 'education' },
+  { selector: '#frm_field_7609_container', section: 'education' },
+  { selector: '#frm_field_7608_container', section: 'education' },
+  { selector: '#frm_field_7615_container', section: 'education' },
+  { selector: '#frm_field_7616_container', section: 'education' },
+  { selector: '#frm_field_7622_container', section: 'education' },
+  { selector: '#frm_field_7623_container', section: 'education' },
+  { selector: '#frm_field_7630_container', section: 'education' },
+  { selector: '#frm_field_7629_container', section: 'education' },
+  { selector: '#frm_field_7636_container', section: 'education' },
+  { selector: '#frm_field_7637_container', section: 'education' },
+  { selector: '#frm_field_7643_container', section: 'education' },
+  { selector: '#frm_field_7644_container', section: 'education' },
 
-    // Eminence
-    { selector: '#frm_field_7671_container', section: 'eminence' }
-  ];
+  // Eminence
+  { selector: '#frm_field_7671_container', section: 'eminence' }
+];
 
 function assignSectionClasses(assignments) {
   if (!Array.isArray(assignments)) return;
@@ -99,34 +99,44 @@ function assignSectionClasses(assignments) {
     });
   });
 
-  clearInlineBlockDisplayForSection();
+  clearEducationInlineBlockDisplaysAsync();
 }
 
 function showSectionFields(sectionKey) {
   // build the class we want to match
   const keepClass = `cc-section-${sectionKey.toLowerCase()}`;
-  
+
   // find everything with a cc-section-... class
   const allSectionEls = document.querySelectorAll('[class*="cc-section-"]');
 
   allSectionEls.forEach(el => {
     if (el.classList.contains(keepClass)) {
-        //console.log(el, "show");
+      //console.log(el, "show");
       el.classList.remove('hidden');
     } else {
-        //console.log(el, "hide");
+      //console.log(el, "hide");
       el.classList.add('hidden');
     }
   });
 }
 
-function clearInlineBlockDisplayForSection() {
-document.querySelectorAll('.cc-section-education').forEach(el=>{
-
-    if(el.style.display === 'block'){
-
-        console.log(el, "true");
-         el.style.removeProperty('display');
+async function clearEducationInlineBlockDisplaysAsync(retries = 5, interval = 200) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    let didClear = false;
+    document.querySelectorAll('.cc-section-education').forEach(el => {
+      if (el.style.display === 'block') {
+        console.log(`🧹 [Attempt ${attempt}] Cleared inline display:block on`, el);
+        el.style.removeProperty('display');
+        didClear = true;
+      }
+    });
+    // If nothing to clear, we’re done early
+    if (!didClear) {
+      console.log(`✅ No more inline display:block found (stopped at attempt ${attempt})`);
+      return;
     }
-});
+    // Otherwise wait and retry
+    await new Promise(res => setTimeout(res, interval));
+  }
+  console.warn(`⚠️ clearEducationInlineBlockDisplaysAsync: timed out after ${retries} attempts`);
 }
