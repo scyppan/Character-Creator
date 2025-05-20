@@ -1,7 +1,7 @@
   const assignments = [
     // Identity
     { selector: '#frm_field_7510_container', section: 'identity' },
-    { selector: '#frm_field_7571_container', section: 'identity' },
+    { selector: '#frm_field_7571_container', section: ['identity', 'education'] },
     { selector: '#frm_field_7551_container', section: 'identity' },
     { selector: '#frm_field_7554_container', section: 'identity' },
     { selector: '#frm_field_7553_container', section: 'identity' },
@@ -65,6 +65,11 @@
     // Education
     { selector: '#frm_field_7511_container', section: 'education' },
     { selector: '#frm_field_7515_container', section: 'education' },
+    { selector: '#frm_field_7597_container', section: 'education' },
+    { selector: '#frm_field_7598_container', section: 'education' },
+    { selector: '#frm_field_7599_container', section: 'education' },
+    { selector: '#frm_field_8298_container', section: 'education' },
+    { selector: '#frm_field_8299_container', section: 'education' },
     { selector: '#frm_field_7514_container', section: 'education' },
     { selector: '#frm_field_7609_container', section: 'education' },
     { selector: '#frm_field_7608_container', section: 'education' },
@@ -85,11 +90,18 @@
 
 function assignSectionClasses(assignments) {
   if (!Array.isArray(assignments)) return;
+
   assignments.forEach(({ selector, section }) => {
     const el = document.querySelector(selector);
-    if (el && section) {
-      el.classList.add(`cc-section-${section}`);
-    }
+    if (!el || !section) return;
+
+    // Normalize to an array of strings
+    const sections = Array.isArray(section) ? section : [section];
+
+    // Add a class for each one
+    sections.forEach(sec => {
+      el.classList.add(`cc-section-${sec}`);
+    });
   });
 }
 
