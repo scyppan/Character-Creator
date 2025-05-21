@@ -1,96 +1,73 @@
-
-function getElectivesByYear() {
-  const byYear = {};
-  for (let y = 1; y <= 7; y++) {
-    byYear[y] = Array.from(
-      document.querySelectorAll(`input[id^="field_electives${y}--"]`)
-    ).filter(el => el.type === 'checkbox');
-  }
-  return byYear;
-}
-
-function getElectiveLimitElement(year) {
-  return document.getElementById(`field_electivelimits${year}`);
-}
-
-function getElectiveDescElement(year) {
-  return document.getElementById(`frm_desc_field_electives${year}`);
-}
-
-function updateElectivesForYear(year, checkboxes) {
-  const limitEl = getElectiveLimitElement(year);
-  if (!limitEl) return;
-  const max = parseInt(limitEl.value, 10) || 0;
-
-  const checkedCount = checkboxes.reduce(
-    (sum, cb) => sum + (cb.checked ? 1 : 0),
-    0
-  );
-
-  const descEl = getElectiveDescElement(year);
-  if (descEl) {
-    if (checkedCount >= max) {
-      descEl.textContent = 'Elective limit reached!';
-    } else {
-      descEl.textContent = `Pick ${max - checkedCount} more`;
-    }
-  }
-
-  if (checkedCount >= max) {
-    checkboxes.forEach(cb => {
-      if (!cb.checked) cb.disabled = true;
+function observeAndInitElectives() {
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.type === 'childList') {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1) {
+            if (node.classList.contains('frm_opt_container') || node.querySelector('.frm_opt_container')) {
+              setupElectiveHandling();
+            }
+          }
+        });
+      } else if (
+        mutation.type === 'attributes' &&
+        mutation.attributeName === 'class' &&
+        mutation.target.classList.contains('frm_opt_container')
+      ) {
+        setupElectiveHandling();
+      }
     });
-  } else {
-    checkboxes.forEach(cb => {
-      cb.disabled = false;
-    });
-  }
-}
-
-function updateAllElectives() {
-  const byYear = getElectivesByYear();
-  Object.entries(byYear).forEach(([year, boxes]) => {
-    updateElectivesForYear(year, boxes);
-  });
-}
-
-function initElectiveHandling() {
-  const byYear = getElectivesByYear();
-
-  // 1) Year‐specific listeners
-  Object.entries(byYear).forEach(([year, boxes]) => {
-    // a) When any checkbox changes
-    boxes.forEach(cb =>
-      cb.addEventListener('change', () => updateElectivesForYear(year, boxes))
-    );
-    // b) When the limit input changes
-    const limitEl = getElectiveLimitElement(year);
-    if (limitEl) {
-      limitEl.addEventListener('change', () =>
-        updateElectivesForYear(year, boxes)
-      );
-    }
   });
 
-  // 2) Global listeners on school and current year
-  const schoolEl = document.getElementById('field_school');
-  const yearEl   = document.getElementById('field_currentyear');
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['class']
+  });
 
-  if (schoolEl) {
-    schoolEl.addEventListener('change', () => {
-      console.log('🔄 school changed, updating all electives');
-      clearEducationInlineBlockDisplaysAsync(20, 150);
-      updateAllElectives();
-    });
-  }
-  if (yearEl) {
-    yearEl.addEventListener('change', () => {
-      console.log('🔄 current year changed, updating all electives');
-      clearEducationInlineBlockDisplaysAsync(20, 150);
-      updateAllElectives();
-    });
+  // In case elements are already present
+  if (document.querySelector('.frm_opt_container')) {
+    setupElectiveHandling();
   }
 
-  // 3) Initial population
-  updateAllElectives();
+  function setupElectiveHandling() {
+    for (let y = 1; y <= 7; y++) {
+      const checkboxes = Array.from(
+        document.querySelectorAll(`input[id^="field_electives${y}--"]`)
+      ).filter(el => el.type === 'checkbox');
+
+      const limitEl = document.getElementById(`field_electivelimits${y}`);
+      const descEl = document.getElementById(`frm_desc_field_electives${y}`);
+
+      function update() {
+        const max = parseInt(limitEl?.value || 0, 10);
+        const count = checkboxes.reduce((sum, cb) => sum + (cb.checked ? 1 : 0), 0);
+        if (descEl) {
+          descEl.textContent = count >= max ? 'Elective limit reached!' : `Pick ${max - count} more`;
+        }
+        checkboxes.forEach(cb => {
+          cb.disabled = count >= max && !cb.checked;
+        });
+      }
+
+      checkboxes.forEach(cb => cb.addEventListener('change', update));
+      if (limitEl) limitEl.addEventListener('change', update);
+      update();
+    }
+
+    const school = document.getElementById('field_school');
+    const year = document.getElementById('field_currentyear');
+
+    function globalUpdate() {
+      console.log('🔄 school/year changed, updating electives');
+      if (typeof clearEducationInlineBlockDisplaysAsync === 'function') {
+        clearEducationInlineBlockDisplaysAsync(20, 150);
+      }
+      setupElectiveHandling();
+    }
+
+    if (school) school.addEventListener('change', globalUpdate);
+    if (year) year.addEventListener('change', globalUpdate);
+  }
 }
