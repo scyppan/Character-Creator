@@ -1,22 +1,32 @@
 function observeAndInitElectives() {
   var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
+    for (let mutation of mutations) {
+      let needsInit = false;
+
       if (mutation.type === 'childList') {
-        mutation.addedNodes.forEach(function(node) {
-          if (node.nodeType === 1) {
-            if (node.classList.contains('frm_opt_container') || node.querySelector('.frm_opt_container')) {
-              setupElectiveHandling();
-            }
+        for (let node of mutation.addedNodes) {
+          if (node.nodeType === 1 && (
+            node.classList.contains('frm_opt_container') ||
+            node.querySelector('.frm_opt_container')
+          )) {
+            needsInit = true;
+            break;
           }
-        });
+        }
       } else if (
         mutation.type === 'attributes' &&
         mutation.attributeName === 'class' &&
         mutation.target.classList.contains('frm_opt_container')
       ) {
-        setupElectiveHandling();
+        needsInit = true;
       }
-    });
+
+      if (needsInit) {
+        labelProcessingState();
+        waitForElectivesReady().then(setupElectiveHandling);
+        break;
+      }
+    }
   });
 
   observer.observe(document.body, {
@@ -26,9 +36,46 @@ function observeAndInitElectives() {
     attributeFilter: ['class']
   });
 
-  // In case elements are already present
   if (document.querySelector('.frm_opt_container')) {
-    setupElectiveHandling();
+    labelProcessingState();
+    waitForElectivesReady().then(setupElectiveHandling);
+  }
+
+  function labelProcessingState() {
+    for (let y = 1; y <= 7; y++) {
+      const desc = document.getElementById(`frm_desc_field_electives${y}`);
+      if (desc) desc.textContent = 'Processing...';
+    }
+  }
+
+  function waitForElectivesReady(timeout = 3000, interval = 100) {
+    return new Promise((resolve) => {
+      const start = Date.now();
+
+      function check() {
+        let allReady = true;
+
+        for (let y = 1; y <= 7; y++) {
+          const limitEl = document.getElementById(`field_electivelimits${y}`);
+          const checkboxes = document.querySelectorAll(`input[id^="field_electives${y}--"]`);
+          if (!limitEl || checkboxes.length === 0) {
+            allReady = false;
+            break;
+          }
+        }
+
+        if (allReady) {
+          resolve();
+        } else if (Date.now() - start > timeout) {
+          console.warn('⏳ Elective load timed out');
+          resolve();
+        } else {
+          setTimeout(check, interval);
+        }
+      }
+
+      check();
+    });
   }
 
   function setupElectiveHandling() {
