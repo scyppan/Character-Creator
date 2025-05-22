@@ -24,12 +24,11 @@ main {
   top: 13%; /* or use var(--cc-sp-offset) here if you prefer */
   left: var(--cc-sp-offset);
   width: var(--cc-sp-expanded);
-  
   background: #d5d1b6;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  
+  max-height: 80%;
   overflow-y: auto;
   z-index: 1000;
 }
