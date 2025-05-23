@@ -1,136 +1,73 @@
-function observeAndInitElectives() {
-  var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-      if (mutation.type === 'childList') {
-        mutation.addedNodes.forEach(function(node) {
-          if (node.nodeType === 1 &&
-             (node.classList.contains('frm_opt_container') ||
-              node.querySelector('.frm_opt_container'))
-          ) {
-            labelProcessingState();
-            waitForElectivesReady().then(setupElectiveHandling);
-          }
+// 1. ensure each elective checkbox has its listener
+function attachelectivelisteners() {
+  document
+    .querySelectorAll('input[id^="field_electives"]')
+    .forEach(cb => {
+      if (!cb._elistener) {
+        cb.addEventListener('change', () => {
+          countchecked();
+          updatelimits();
         });
-      } else if (
-        mutation.type === 'attributes' &&
-        mutation.attributeName === 'class' &&
-        mutation.target.classList.contains('frm_opt_container')
-      ) {
-        labelProcessingState();
-        waitForElectivesReady().then(setupElectiveHandling);
+        cb._elistener = true;
       }
+    });
+}
+
+// 2. tally how many are checked per group
+function countchecked() {
+  const counts = {};
+  for (let y = 1; y <= 7; y++) {
+    counts[y] = document.querySelectorAll(
+      `input[id^="field_electives${y}--"]:checked`
+    ).length;
+  }
+  return counts;
+}
+
+// 3. adjust descriptions and disable extras when max reached
+function updatelimits() {
+  const counts = countchecked();
+  for (let y = 1; y <= 7; y++) {
+    const max   = parseInt(document.getElementById(`field_electivelimits${y}`)?.value,10) || 0;
+    const desc  = document.getElementById(`frm_desc_field_electives${y}`);
+    const count = counts[y];
+    if (desc) {
+      desc.textContent = count >= max
+        ? 'Elective limit reached!'
+        : `Pick ${max - count} more`;
+    }
+    document.querySelectorAll(`input[id^="field_electives${y}--"]`)
+      .forEach(cb => cb.disabled = count >= max && !cb.checked);
+  }
+}
+
+// 4a. ceaseless poller every ½s
+function poolelectives() {
+  attachelectivelisteners();
+  updatelimits();
+}
+
+// tweak init to launch it
+function initelectivesobserver() {
+  const obs = new MutationObserver(() => {
+    attachelectivelisteners();
+    updatelimits();
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
+
+  ['field_school','field_currentyear'].forEach(id => {
+    document.getElementById(id)?.addEventListener('change', () => {
+      attachelectivelisteners();
+      updatelimits();
     });
   });
 
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    attributeFilter: ['class']
-  });
+  // initial
+  attachelectivelisteners();
+  updatelimits();
 
-  if (document.querySelector('.frm_opt_container')) {
-    labelProcessingState();
-    waitForElectivesReady().then(setupElectiveHandling);
-  }
+  // new: perpetual check
+  setInterval(poolelectives, 500);
 
-  function labelProcessingState() {
-    for (var y = 1; y <= 7; y++) {
-      var desc = document.getElementById('frm_desc_field_electives' + y);
-      if (desc) desc.textContent = 'Processing...';
-    }
-  }
-
-  function waitForElectivesReady(timeout, interval) {
-    timeout = timeout || 3000;
-    interval = interval || 100;
-    return new Promise(function(resolve) {
-      var start = Date.now();
-      (function check() {
-        var allReady = true;
-        for (var y = 1; y <= 7; y++) {
-          var limitEl = document.getElementById('field_electivelimits' + y);
-          var boxes = document.querySelectorAll('input[id^="field_electives' + y + '--"]');
-          if (!limitEl || boxes.length === 0) {
-            allReady = false;
-            break;
-          }
-        }
-        if (allReady || Date.now() - start > timeout) {
-          resolve();
-        } else {
-          setTimeout(check, interval);
-        }
-      })();
-    });
-  }
-
-  function setupElectiveHandling() {
-    for (var y = 1; y <= 7; y++) {
-      var checkboxes = Array.from(
-        document.querySelectorAll('input[id^="field_electives' + y + '--"]')
-      ).filter(function(el) { return el.type === 'checkbox'; });
-
-      var limitEl = document.getElementById('field_electivelimits' + y);
-      var descEl  = document.getElementById('frm_desc_field_electives' + y);
-
-      function update() {
-        var max   = parseInt(limitEl && limitEl.value, 10) || 0;
-        var count = checkboxes.reduce(function(sum, cb) {
-          return sum + (cb.checked ? 1 : 0);
-        }, 0);
-        if (descEl) {
-          descEl.textContent = count >= max
-            ? 'Elective limit reached!'
-            : 'Pick ' + (max - count) + ' more';
-        }
-        checkboxes.forEach(function(cb) {
-          cb.disabled = count >= max && !cb.checked;
-        });
-      }
-
-      checkboxes.forEach(function(cb) {
-        cb.addEventListener('change', update);
-      });
-      if (limitEl) {
-        limitEl.addEventListener('change', update);
-      }
-      update();
-    }
-  }
-
-  function handleSchoolChange() {
-    labelProcessingState();
-    if (typeof clearEducationInlineBlockDisplaysAsync === 'function') {
-      clearEducationInlineBlockDisplaysAsync(20, 150);
-    }
-    waitForElectivesReady().then(function() {
-      // uncheck all elective checkboxes once loaded
-      for (var y = 1; y <= 7; y++) {
-        var boxes = document.querySelectorAll('input[id^="field_electives' + y + '--"]');
-        boxes.forEach(function(cb) {
-          if (cb.checked) cb.checked = false;
-        });
-      }
-      setupElectiveHandling();
-    });
-  }
-
-  var schoolEl = document.getElementById('field_school');
-  if (schoolEl) {
-    schoolEl.addEventListener('change', handleSchoolChange);
-  }
-
-  var yearEl = document.getElementById('field_currentyear');
-  if (yearEl) {
-    yearEl.addEventListener('change', function() {
-      console.log('🔄 current year changed, updating electives');
-      if (typeof clearEducationInlineBlockDisplaysAsync === 'function') {
-        clearEducationInlineBlockDisplaysAsync(20, 150);
-      }
-      setupElectiveHandling();
-    });
-  }
-
-  return observer;
+  return obs;
 }
