@@ -5,7 +5,7 @@ function attachelectivelisteners() {
     .forEach(cb => {
       if (!cb._elistener) {
         cb.addEventListener('change', () => {
-          countchecked();
+          enforcelimits();
           updatelimits();
         });
         cb._elistener = true;
@@ -24,7 +24,24 @@ function countchecked() {
   return counts;
 }
 
-// 3. adjust descriptions and disable extras when max reached
+// 3. enforce absolute limit by unchecking excess
+function enforcelimits() {
+  for (let y = 1; y <= 7; y++) {
+    const max = parseInt(
+      document.getElementById(`field_electivelimits${y}`)?.value,
+      10
+    ) || 0;
+    const boxes = Array.from(
+      document.querySelectorAll(`input[id^="field_electives${y}--"]`)
+    );
+    const checked = boxes.filter(cb => cb.checked);
+    if (checked.length > max) {
+      checked.slice(max).forEach(cb => { cb.checked = false; });
+    }
+  }
+}
+
+// 4. adjust descriptions and disable extras when max reached
 function updatelimits() {
   for (let y = 1; y <= 7; y++) {
     const max   = parseInt(
@@ -38,7 +55,6 @@ function updatelimits() {
       ? 'Elective limit reached!'
       : `Pick ${max - count} more`;
 
-    // only change if necessary
     if (descEl && descEl.textContent !== newTxt) {
       descEl.textContent = newTxt;
     }
@@ -53,15 +69,17 @@ function updatelimits() {
   }
 }
 
-// 4a. ceaseless poller every ½s
+// 5. ceaseless poller every ½s
 function poolelectives() {
+  enforcelimits();
   attachelectivelisteners();
   updatelimits();
 }
 
-// tweak init to launch it
+// 6. initialize observer and bind handlers
 function initelectivesobserver() {
   const obs = new MutationObserver(() => {
+    enforcelimits();
     attachelectivelisteners();
     updatelimits();
   });
@@ -69,16 +87,16 @@ function initelectivesobserver() {
 
   ['field_school','field_currentyear'].forEach(id => {
     document.getElementById(id)?.addEventListener('change', () => {
+      enforcelimits();
       attachelectivelisteners();
       updatelimits();
     });
   });
 
-  // initial
+  enforcelimits();
   attachelectivelisteners();
   updatelimits();
 
-  // new: perpetual check
   setInterval(poolelectives, 500);
 
   return obs;
