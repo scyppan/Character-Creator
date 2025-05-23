@@ -26,18 +26,30 @@ function countchecked() {
 
 // 3. adjust descriptions and disable extras when max reached
 function updatelimits() {
-  const counts = countchecked();
   for (let y = 1; y <= 7; y++) {
-    const max   = parseInt(document.getElementById(`field_electivelimits${y}`)?.value,10) || 0;
-    const desc  = document.getElementById(`frm_desc_field_electives${y}`);
-    const count = counts[y];
-    if (desc) {
-      desc.textContent = count >= max
-        ? 'Elective limit reached!'
-        : `Pick ${max - count} more`;
+    const max   = parseInt(
+      document.getElementById(`field_electivelimits${y}`)?.value, 10
+    ) || 0;
+    const descEl  = document.getElementById(`frm_desc_field_electives${y}`);
+    const count   = document.querySelectorAll(
+      `input[id^="field_electives${y}--"]:checked`
+    ).length;
+    const newTxt  = count >= max
+      ? 'Elective limit reached!'
+      : `Pick ${max - count} more`;
+
+    // only change if necessary
+    if (descEl && descEl.textContent !== newTxt) {
+      descEl.textContent = newTxt;
     }
+
     document.querySelectorAll(`input[id^="field_electives${y}--"]`)
-      .forEach(cb => cb.disabled = count >= max && !cb.checked);
+      .forEach(cb => {
+        const shouldDisable = count >= max && !cb.checked;
+        if (cb.disabled !== shouldDisable) {
+          cb.disabled = shouldDisable;
+        }
+      });
   }
 }
 
